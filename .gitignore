@@ -1,24 +1,116 @@
-# Compiled class file
-*.class
+import java.util.ArrayList;
+import java.util.Scanner;
 
-# Log file
-*.log
+class Produto {
+    String nome;
+    int codigo;
+    int estoque;
 
-# BlueJ files
-*.ctxt
+    public Produto(String nome, int codigo) {
+        this.nome = nome;
+        this.codigo = codigo;
+        this.estoque = 1;
+    }
 
-# Mobile Tools for Java (J2ME)
-.mtj.tmp/
+    public static void main(String[] args) {
+        ArrayList<Produto> produtos = new ArrayList<>();
+            produtos.add(new Produto("IPHONE 11 256GB BRANCO", 72183));
+            produtos.add(new Produto("IPHONE 11 PRO MAX 512GB VERMELHO", 43148));
+            produtos.add(new Produto("IPHONE 12 128GB PRETO", 21284));
+            produtos.add(new Produto("IPHONE 12 PRO MAX 512GB ROSE GOLD", 45612));
+            produtos.add(new Produto("IPHONE 13 128GB PRETO", 78941));
+            produtos.add(new Produto("IPHONE 13 PRO MAX 1TB GOLD", 89564));
+            produtos.add(new Produto("IPHONE 14 PRO 128GB PRETO", 78954));
+            produtos.add(new Produto("IPHONE 14 PRO MAX 1TB ROXO", 75395));
+            produtos.add(new Produto("IPHONE 15 5TB ROSA CHOQUE", 21284));
 
-# Package Files #
-*.jar
-*.war
-*.nar
-*.ear
-*.zip
-*.tar.gz
-*.rar
+        try (Scanner scanner = new Scanner(System.in)) {
+			while (true) {
+				System.out.println("\n BEM VINDO A LOJA FULL HOUSE APPLE");
+			    System.out.println("\n-------------Menu:--------------- ");
+			    System.out.println("1) Listar todos os celulares");
+			    System.out.println("2) Cadastrar um novo celular");
+			    System.out.println("3) Adicionar estoque de um celular");
+			    System.out.println("4) Remover um celular da loja");
+			    System.out.println("5) Vender um celular");
+			    System.out.println("6) Sair da loja");
+			    System.out.print("Escolha uma opção: ");
+			    
+			    int opcao = scanner.nextInt();
+			    
+			    switch (opcao) {
+			        case 1:
+			            if (produtos.isEmpty()) {
+			            System.out.println("Nenhuma produto cadastrado no na loja");
+			            } else {
+			            for (Produto produto : produtos) {
+			            System.out.println(produto.codigo + ") " + produto.nome + " (cód.: " + produto.codigo + " | estoque: " + produto.estoque + ")");
+			            }
+			            }
+			            break;
+			            
+			        case 2:
+			            System.out.print("Digite o nome do celular: ");
+			            scanner.nextLine(); 
+			            String nomeProduto = scanner.nextLine();
+			            System.out.print("Digite o código do celuar: ");
+			            int codigoProduto = scanner.nextInt();
+			            produtos.add(new Produto(nomeProduto, codigoProduto));
+			            System.out.println(nomeProduto + " cadastrado com sucesso. Código: " + codigoProduto + ", Estoque: ");
+			            break;
+			            
+			        case 3:
+    					System.out.print("Digite o código do celular para adicionar no estoque: ");
+    					int codigoAdicionar = scanner.nextInt();
+    					for (Produto produto : produtos) {
+        				if (produto.codigo == codigoAdicionar) {
+            			System.out.print("Digite a quantidade de celulares para adicionar ao estoque: ");
+            			int quantidadeAdicionar = scanner.nextInt();
+            			produto.estoque += quantidadeAdicionar;
+            			System.out.println("Estoque do de celulares atualizado com sucesso.");
+						}
+    					}
+    					break;
 
-# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
-hs_err_pid*
-replay_pid*
+					case 4:
+    					System.out.print("Digite o código do celular a ser removido: ");
+    					int codigoRemover = scanner.nextInt();
+
+    					for (int i = 0; i < produtos.size(); i++) {
+        				Produto produto = produtos.get(i);
+        				if (produto.codigo == codigoRemover) {
+            			produtos.remove(i);
+            			System.out.println("Celular removido da loja!");
+        				}
+    					}
+						break;
+			            
+			        case 5: 
+    					System.out.print("Digite o código do celular a ser vendido: ");
+    					int codigoVender = scanner.nextInt();
+    					for (Produto produto : produtos) {
+						if (produto.codigo == codigoVender) {
+            			System.out.print("Digite a quantidade dos celulares que deseja comprar: ");
+            			int quantidadeVender = scanner.nextInt();
+            
+            			if (quantidadeVender <= produto.estoque) {
+                		produto.estoque -= quantidadeVender;
+                		System.out.println("Venda realizada com sucesso.");
+            			} else {
+                		System.out.println("Estoque  de celulares insuficiente para realizar a venda!");
+            			}
+        				}
+    					}
+    					break;
+
+			        case 6:
+			            System.out.println("Obrigado por comprar na loja FULL HOUSE APPLE, volte sempre!");
+			            System.exit(0);
+			            
+			        default:
+			            System.out.println("Opção inválida. Escolha uma opção válida.");
+			    }
+			}
+		}
+    }
+}
